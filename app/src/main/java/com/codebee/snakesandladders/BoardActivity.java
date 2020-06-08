@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Layout;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -106,7 +107,7 @@ public class BoardActivity extends AppCompatActivity {
             findViewById(R.id.board_roll_dice_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int randomInt, prev_pos;
+                    final int randomInt, prev_pos;
                     Random rn = new Random();
                     randomInt = rn.nextInt(6) + 1;
                     ((TextView) findViewById(R.id.board_dice_text)).setText("" + randomInt);
@@ -115,30 +116,37 @@ public class BoardActivity extends AppCompatActivity {
                     p1_pos = p1_pos + randomInt;
                     p1_pos = updatePosition(p1_pos);
 
-                    if (p1_pos < 100) {
-                        ((ImageView) gridLayout.findViewWithTag("board_position_" + prev_pos)).setImageResource(R.drawable.empty);
-                        if (p1_pos == p2_pos) {
-                            ((ImageView) gridLayout.findViewWithTag("board_position_" + p1_pos)).setImageResource(R.drawable.p1p2);
-                        } else {
-                            ((ImageView) gridLayout.findViewWithTag("board_position_" + p1_pos)).setImageResource(R.drawable.p1);
-                            ((ImageView) gridLayout.findViewWithTag("board_position_" + p2_pos)).setImageResource(R.drawable.p2);
+                    ((TextView) findViewById(R.id.board_turn_text)).setText("Player 1 is moving now.");
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (p1_pos < 100) {
+                                ((ImageView) gridLayout.findViewWithTag("board_position_" + prev_pos)).setImageResource(R.drawable.empty);
+                                if (p1_pos == p2_pos) {
+                                    ((ImageView) gridLayout.findViewWithTag("board_position_" + p1_pos)).setImageResource(R.drawable.p1p2);
+                                } else {
+                                    ((ImageView) gridLayout.findViewWithTag("board_position_" + p1_pos)).setImageResource(R.drawable.p1);
+                                    ((ImageView) gridLayout.findViewWithTag("board_position_" + p2_pos)).setImageResource(R.drawable.p2);
+                                }
+
+                                turn = "p2";
+                                playTurn();
+                            } else if (p1_pos == 100) {
+                                ((ImageView) gridLayout.findViewWithTag("board_position_" + prev_pos)).setImageResource(R.drawable.empty);
+                                ((ImageView) gridLayout.findViewWithTag("board_position_" + p1_pos)).setImageResource(R.drawable.p1);
+                                ((ImageView) gridLayout.findViewWithTag("board_position_" + p2_pos)).setImageResource(R.drawable.p2);
+
+                                Toast.makeText(getApplicationContext(), "Player 1 wins!!", Toast.LENGTH_SHORT).show();
+
+                                finish();
+                            } else {
+                                p1_pos = prev_pos;
+                                turn = "p2";
+                                playTurn();
+                            }
                         }
-
-                        turn = "p2";
-                        playTurn();
-                    } else if (p1_pos == 100) {
-                        ((ImageView) gridLayout.findViewWithTag("board_position_" + prev_pos)).setImageResource(R.drawable.empty);
-                        ((ImageView) gridLayout.findViewWithTag("board_position_" + p1_pos)).setImageResource(R.drawable.p1);
-                        ((ImageView) gridLayout.findViewWithTag("board_position_" + p2_pos)).setImageResource(R.drawable.p2);
-
-                        Toast.makeText(getApplicationContext(), "Player 1 wins!!", Toast.LENGTH_SHORT).show();
-
-                        finish();
-                    } else {
-                        p1_pos = prev_pos;
-                        turn = "p2";
-                        playTurn();
-                    }
+                    },300);
 
                 }
             });
@@ -167,7 +175,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void playerTwoTurn(){
-        int randomInt, prev_pos;
+        final int randomInt, prev_pos;
         Random rn = new Random();
         randomInt = rn.nextInt(6) + 1;
         ((TextView) findViewById(R.id.board_dice_text)).setText("" + randomInt);
@@ -176,30 +184,37 @@ public class BoardActivity extends AppCompatActivity {
         p2_pos = p2_pos + randomInt;
         p2_pos = updatePosition(p2_pos);
 
-        if (p2_pos < 100) {
-            ((ImageView) gridLayout.findViewWithTag("board_position_" + prev_pos)).setImageResource(R.drawable.empty);
-            if (p1_pos == p2_pos) {
-                ((ImageView) gridLayout.findViewWithTag("board_position_" + p2_pos)).setImageResource(R.drawable.p1p2);
-            } else {
-                ((ImageView) gridLayout.findViewWithTag("board_position_" + p1_pos)).setImageResource(R.drawable.p1);
-                ((ImageView) gridLayout.findViewWithTag("board_position_" + p2_pos)).setImageResource(R.drawable.p2);
+        ((TextView) findViewById(R.id.board_turn_text)).setText("Player 2 is moving now.");
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (p2_pos < 100) {
+                    ((ImageView) gridLayout.findViewWithTag("board_position_" + prev_pos)).setImageResource(R.drawable.empty);
+                    if (p1_pos == p2_pos) {
+                        ((ImageView) gridLayout.findViewWithTag("board_position_" + p2_pos)).setImageResource(R.drawable.p1p2);
+                    } else {
+                        ((ImageView) gridLayout.findViewWithTag("board_position_" + p1_pos)).setImageResource(R.drawable.p1);
+                        ((ImageView) gridLayout.findViewWithTag("board_position_" + p2_pos)).setImageResource(R.drawable.p2);
+                    }
+
+                    turn = "p1";
+                    playTurn();
+                } else if (p2_pos == 100) {
+                    ((ImageView) gridLayout.findViewWithTag("board_position_" + prev_pos)).setImageResource(R.drawable.empty);
+                    ((ImageView) gridLayout.findViewWithTag("board_position_" + p1_pos)).setImageResource(R.drawable.p1);
+                    ((ImageView) gridLayout.findViewWithTag("board_position_" + p2_pos)).setImageResource(R.drawable.p2);
+
+                    Toast.makeText(getApplicationContext(), "Player 2 wins!!", Toast.LENGTH_SHORT).show();
+
+                    finish();
+                } else {
+                    p2_pos = prev_pos;
+                    turn = "p1";
+                    playTurn();
+                }
             }
-
-            turn = "p1";
-            playTurn();
-        } else if (p2_pos == 100) {
-            ((ImageView) gridLayout.findViewWithTag("board_position_" + prev_pos)).setImageResource(R.drawable.empty);
-            ((ImageView) gridLayout.findViewWithTag("board_position_" + p1_pos)).setImageResource(R.drawable.p1);
-            ((ImageView) gridLayout.findViewWithTag("board_position_" + p2_pos)).setImageResource(R.drawable.p2);
-
-            Toast.makeText(getApplicationContext(), "Player 2 wins!!", Toast.LENGTH_SHORT).show();
-
-            finish();
-        } else {
-            p2_pos = prev_pos;
-            turn = "p1";
-            playTurn();
-        }
+        },300);
     }
 
     private int updatePosition(int position) {
