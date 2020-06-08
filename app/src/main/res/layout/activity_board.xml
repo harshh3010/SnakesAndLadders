@@ -66,22 +66,8 @@
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toTopOf="@+id/textView6" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_settings"
-        tools:ignore="VectorDrawableCompat" />
-
     <Button
-        android:id="@+id/button"
+        android:id="@+id/board_roll_dice_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -103,7 +89,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/board_dice_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -117,11 +103,11 @@
         android:textColor="#EEFF00"
         android:textSize="16sp"
         app:fontFamily="@font/chango"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/board_roll_dice_button"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/board_turn_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -136,8 +122,8 @@
         android:shadowRadius="3"
         android:text="Player 1's turn"
         android:textColor="#EEFF00"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toStartOf="@+id/textView5"
+        app:layout_constraintBottom_toTopOf="@+id/board_roll_dice_button"
+        app:layout_constraintEnd_toStartOf="@+id/board_dice_text"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.gridlayout.widget.GridLayout
@@ -149,7 +135,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:background="@drawable/board"
-        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        app:layout_constraintBottom_toTopOf="@+id/board_turn_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2">

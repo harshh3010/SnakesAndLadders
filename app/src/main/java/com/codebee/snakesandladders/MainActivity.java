@@ -16,14 +16,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.single_player_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,BoardActivity.class));
+                Intent intent = new Intent(MainActivity.this,BoardActivity.class);
+                intent.putExtra("type","single");
+                startActivity(intent);
             }
         });
 
         findViewById(R.id.multiplayer_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,BoardActivity.class));
+                Intent intent = new Intent(MainActivity.this,BoardActivity.class);
+                intent.putExtra("type","multi");
+                startActivity(intent);
             }
         });
     }
